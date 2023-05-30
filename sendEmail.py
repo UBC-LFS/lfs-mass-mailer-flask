@@ -25,5 +25,5 @@ def sendEmail(to):
     except Exception as e:
        print("\nError:\n" + str(e) + "\n")
 
-to = input("Who would you like to send this email to?: ")
-sendEmail(to)
+# to = input("Who would you like to send this email to?: ")
+# sendEmail(to)

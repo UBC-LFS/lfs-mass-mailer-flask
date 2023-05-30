@@ -3,10 +3,98 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
         <title>LFS Mass Mailer</title>
+        <!-- Page icon -->
+        <link rel="shortcut icon" href="https://cdn.ubc.ca/clf/7.0.4/img/favicon.ico">
+
+        <!-- CSS file -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+        <!-- Rich text editor -->
+        <link rel="stylesheet" href={{ url_for('static', filename='richtexteditor/rte_theme_default.css') }} />
+        <script type="text/javascript" src={{ url_for('static', filename='richtexteditor/rte.js') }}></script>
+        <script type="text/javascript" src={{ url_for('static', filename='richtexteditor/plugins/all_plugins.js') }}></script>
     </head>
 
     <body>
-        <p>Hello, world!</p>
+        <div class="site-container">
+            {% include 'navigationbar.html' %}
+
+            <div class="content-container">
+                <h1>LFS Mass Mailer</h1>
+                
+                <div id="uploadFileSection">
+                    <ul>
+                        <li>Files must be under 10MB.</li>
+                        <li>All other file types are rejected.</li>
+                        <li>A file must contain Email or email in headers</li>
+                        <li>A template .CSV file can be found here</li>
+                    </ul>
+
+                    <form id="uploadTableForm">
+                        <input type="file" name="filename" id="uploadTable" accept=".csv">
+                        <input type="submit">
+                    </form>
+                </div>
+
+                <div id="writeEmailSection" style="display: none;">
+
+                    <table id="contactTable">
+                        <tr>
+                            <th>First name</th>
+                            <th>Last name</th>
+                            <th>Email</th>
+                        </tr>
+                    </table>
+
+                    <div class="writeEmailContainer">
+                        <h2>Write Your Email</h2>
+
+                        <input id="subjectForm" placeholder="Subject">
+                        <!-- Rich text editor -->
+                        <div id="richTextEditor"></div>
+                        <!-- Rich text editor ^^^ -->
+                        <button onclick="sendEmails()">Send emails</button>
+                    </div>
+
+                    <div class="previewEmailContainer">
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- {% include 'footer.html' %} -->
+        </div>
     </body>
 </html>
+
+<!-- JS API for reading .csv files -->
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<!-- JavaScript file for uploading table and displaying it's next steps  -->
+<script src="{{ url_for('static', filename='javascript/uploadTable.js') }}"></script>
+
+<!-- Ajax - for sending js data to flask async -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
+<script>
+	var textEditor = new RichTextEditor("#richTextEditor");
+	//editor1.setHTMLCode("Use inline HTML or setHTMLCode to init the default content.");
+    // textEditor.attachEvent("change", function () {      
+    //     console.log(textEditor.getHTMLCode())    
+    // });   
+
+    function sendEmails() {
+        emailContent = {
+            subject:document.getElementById("subjectForm").value,
+            HTMLemailContent:textEditor.getHTMLCode()
+        }
+        console.log(emailContent)
+
+        $.post( "/sendemails", {
+            data: emailContent 
+        });
+    }
+
+</script>
