@@ -12,13 +12,14 @@ def home():
     return render_template("index.html")
 
 @app.route('/sendemails', methods = ['POST'])
-def sendEmails():
+def getEmailContent():
     jsdata = request.form
     formattedData = jsdata.to_dict(flat=False)
     subject = formattedData['data[subject]'][0]
     print(subject)
     message = formattedData['data[HTMLemailContent]'][0]
     print(message)
+    sendEmail.sendEmails("donald.lee@ubc.ca", subject, message)
     return "Received email"
 
 if __name__ == "__main__":
