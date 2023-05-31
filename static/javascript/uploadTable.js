@@ -1,15 +1,30 @@
 var csvData;
+var varList = []
+
 function getCSVData() {
     return csvData
 }
+
+function getVarList() {
+    return varList;
+}
+
 function buildTable(data) {
     // document.getElementById("uploadFileSection").style.display = "none";
     document.getElementById("writeEmailSection").style.display = "block";
     const columns = document.getElementById("columns");
+    const variablesList = document.getElementById("variablesList")
+
     for (const column of data["columns"]) {
-        const columnLi = document.createElement("th")
-        columnLi.innerHTML = column
-        columns.appendChild(columnLi)
+        // Table
+        const columnTh = document.createElement("th")
+        columnTh.innerHTML = column
+        columns.appendChild(columnTh)
+        // Variables list
+        const columnLi = document.createElement("li")
+        columnLi.innerHTML = `%${column.replace(' ', '_').toUpperCase()}%`
+        variablesList.appendChild(columnLi)
+        varList.push(column)
     }
     const contactTable = document.getElementById("contactTable");
     // console.log(JSON.stringify(data))

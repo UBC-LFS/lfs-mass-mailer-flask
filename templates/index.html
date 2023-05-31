@@ -47,15 +47,13 @@
                     <div class="writeEmailContainer">
                         <h2>Write Your Email</h2>
                         <p>Please use the following Header Replacements. Those variables will be replaced by actual values while sending an Email.<br/>Header Replacements:</p>
-                        <ul>
-                            <li>%FIRST_NAME%</li>
-                            <li>%LAST_NAME%</li>
-                            <li>%EMAIL%</li>
-                        </ul>
+                        <ul id="variablesList"></ul>
                         <input id="subjectForm" placeholder="Subject">
                         <!-- Rich text editor -->
                         <div id="richTextEditor"></div>
                         <!-- Rich text editor ^^^ -->
+
+                        <p>Note: Uploaded images may not display properly on some web browsers!</p>
                         <button onclick="sendEmails()">Send emails</button>
                     </div>
 
@@ -90,7 +88,8 @@
         emailContent = {
             subject:document.getElementById("subjectForm").value,
             HTMLemailContent:textEditor.getHTMLCode(),
-            receivers: getCSVData()
+            receivers: getCSVData(),
+            varList: getVarList()
         }
         console.log(emailContent)
 

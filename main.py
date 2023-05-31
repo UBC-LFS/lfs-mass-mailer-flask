@@ -17,9 +17,9 @@ def getEmailContent():
     formattedData = jsdata.to_dict(flat=False)
     subject = formattedData["subject"][0]
     message = formattedData["HTMLemailContent"][0]
-    recipients = sendEmail.buildReceiversData(formattedData)
-
-    sendEmail.sendEmails(recipients, subject, message)
+    variables = formattedData["varList[]"]
+    recipients = sendEmail.buildReceiversData(formattedData, variables)
+    sendEmail.sendEmails(recipients, subject, message, variables)
     return "Received email"
 
 if __name__ == "__main__":

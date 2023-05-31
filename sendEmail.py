@@ -14,23 +14,20 @@ USER = os.getenv("USER")
 PASSWORD = os.getenv("PASSWORD")
 
 
-def buildReceiversData(data):
+def buildReceiversData(data, variables):
     recipients = []
     # Data is sent by ajax in a weird format
-    # len(data) - 2 (removes the subject and email content)
-    # divide by 3 (each recipient has an email, first name, and last name)
-    numOfRecipients = int((len(data) - 2)/3)
+    # len(data) - 2 (removes the subject and email content from the data count)
+    # divide by # of variables
+    numOfRecipients = int((len(data) - 2)/len(variables))
     for i in range(numOfRecipients):
-        receivers = data[f"receivers[{i}][First Name]"][0]
-        recipient = {
-            "firstName": data[f"receivers[{i}][First Name]"][0],
-            "lastName": data[f"receivers[{i}][Last Name]"][0],
-            "email": data[f"receivers[{i}][Email]"][0]
-        }
+        recipient = {}
+        for var in variables:
+            recipient[var] = data[f"receivers[{i}][{var}]"][0]
         recipients.append(recipient)
     return recipients
 
-def sendEmails(recipients, subject, draftMessage):
+def sendEmails(recipients, subject, draftMessage, variables):
     try:
         for i in range(len(recipients)):
             msg = email.message.Message()
@@ -40,9 +37,16 @@ def sendEmails(recipients, subject, draftMessage):
             emailService.ehlo()
             emailService.starttls()
             emailService.login(user=USER, password=PASSWORD, initial_response_ok=True)
-            modifiedSubject = subject.replace(f"%FIRST_NAME%", recipients[i]["firstName"]).replace(f"%LAST_NAME%", recipients[i]["lastName"])
+
+            modifiedSubject = subject
+            modifiedDraftMessage = draftMessage
+            # If user adds a variable into their subject or message, replace it with the actual value
+            for var in variables:
+                insertedVar = f"%{var.replace(' ', '_').upper()}%"
+                modifiedSubject = modifiedSubject.replace(insertedVar, recipients[i][var])
+                modifiedDraftMessage = modifiedDraftMessage.replace(insertedVar, recipients[i][var])
+
             msg['Subject'] = modifiedSubject
-            modifiedDraftMessage = draftMessage.replace(f"%FIRST_NAME%", recipients[i]["firstName"]).replace(f"%LAST_NAME%", recipients[i]["lastName"])
             message = f"""\
                 <html>
                 <head></head>
@@ -52,7 +56,7 @@ def sendEmails(recipients, subject, draftMessage):
                 </html>
             """
             msg.set_payload(message)
-            msg['To'] = recipients[i]["email"] 
+            msg['To'] = recipients[i]["Email"] 
             emailService.sendmail(msg['From'], msg['to'], msg.as_string())
         
         emailService.quit()
