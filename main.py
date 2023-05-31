@@ -15,11 +15,11 @@ def home():
 def getEmailContent():
     jsdata = request.form
     formattedData = jsdata.to_dict(flat=False)
-    subject = formattedData['data[subject]'][0]
-    print(subject)
-    message = formattedData['data[HTMLemailContent]'][0]
-    print(message)
-    sendEmail.sendEmails("donald.lee@ubc.ca", subject, message)
+    subject = formattedData["subject"][0]
+    message = formattedData["HTMLemailContent"][0]
+    recipients = sendEmail.buildReceiversData(formattedData)
+
+    sendEmail.sendEmails(recipients, subject, message)
     return "Received email"
 
 if __name__ == "__main__":

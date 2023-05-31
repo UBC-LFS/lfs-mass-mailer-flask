@@ -41,16 +41,17 @@
                 <div id="writeEmailSection" style="display: none;">
 
                     <table id="contactTable">
-                        <tr>
-                            <th>First name</th>
-                            <th>Last name</th>
-                            <th>Email</th>
-                        </tr>
+                        <tr id="columns"></tr>
                     </table>
 
                     <div class="writeEmailContainer">
                         <h2>Write Your Email</h2>
-
+                        <p>Please use the following Header Replacements. Those variables will be replaced by actual values while sending an Email.<br/>Header Replacements:</p>
+                        <ul>
+                            <li>%FIRST_NAME%</li>
+                            <li>%LAST_NAME%</li>
+                            <li>%EMAIL%</li>
+                        </ul>
                         <input id="subjectForm" placeholder="Subject">
                         <!-- Rich text editor -->
                         <div id="richTextEditor"></div>
@@ -88,12 +89,20 @@
     function sendEmails() {
         emailContent = {
             subject:document.getElementById("subjectForm").value,
-            HTMLemailContent:textEditor.getHTMLCode()
+            HTMLemailContent:textEditor.getHTMLCode(),
+            receivers: getCSVData()
         }
         console.log(emailContent)
 
-        $.post( "/sendemails", {
-            data: emailContent 
+        // $.post( "/sendemails", {
+        //     data: emailContent,
+        //     receivers: getCSVData()
+        // });
+        $.ajax({
+                type: "POST",
+                url: "/sendemails",
+                data: emailContent,
+                dataType: "json"
         });
     }
 
