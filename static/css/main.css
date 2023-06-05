@@ -9,27 +9,145 @@ body {
 }
 
 .content-container {
-    margin: 0 auto;
+    margin: 20px auto;
     display: block;
     width: 80%;
     position: relative;
-    margin-bottom: 200px;
+    min-height: 400px;
+}
+.fileSummaryContainer {
+  display: table;
+  width: 100%;
+}
+.fileSummaryTextContainer {
+  background: #e6e6e6;
+  width: 34%;
+  float: left;
+  margin-top: 80px;
+  margin-right: 2%;
+  padding: 2%;
+  border-radius: 20px;
+}
+.summaryTitle {
+  color: #2196f3;
+  font-weight: bold;
+}
+/* Display table */
+.rowsDisplayedText {
+  font-weight: bold;
+}
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 60%;
+  margin-bottom: 100px;
+  float: right;
 }
 
-/* Display table */
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-  }
-  
-  td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #dddddd;
-  }
+tr:nth-child(1) {
+  background: #002145;
+  color: white;
+}
+tr:nth-child(1) {
+  background: #002145 !important;
+  color: white;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+tr:nth-child(even) {
+  background: #f5f5f5;
+}
+tr:hover {
+  background: #dddddd;
+}
 /* Display table ^^ */
+
+.writeEmailContainer {
+    margin-bottom: 100px;
+}
+
+.subjectForm {
+  outline: none;
+  border: none;
+  font-size: 1.5em;
+  margin: 10px 0px;
+  border-bottom: black solid;
+  width: 300px;
+}
+
+.previewEmailTint {
+  position: fixed;
+  background: #000;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  opacity: 0.3;
+  cursor: pointer;
+}
+
+.previewEmailContainer {
+    position: fixed;
+    top: 10%;
+    background: white;
+    width: 80%;
+    border-radius: 10px;
+    z-index: 1;
+    max-height: 80vh;
+    overflow: hidden;
+}
+.emailPreview {
+  padding: 20px;
+}
+
+.emailPreviewTitle {
+  position: relative;
+  top: 10px;
+  left: 20px;
+  margin: 0;
+}
+
+.closePreviewX {
+  color: lightgray;
+  cursor: pointer;
+  right: 40px;
+  float: right;
+  position: relative;
+  transition: 0.3s;
+  font-weight: normal;
+}
+.closePreviewX:hover {
+  color: red;
+}
+
+.previewSubject {
+  padding: 10px;
+  border: solid 1px #ebedf2;
+}
+
+.previewMessage {
+  min-height: 50vh;
+  padding: 10px;
+  border: solid 1px #ebedf2;
+  overflow-y: auto;
+}
+
+.sendEmailButton {
+  margin-top: 20px;
+  background: #0b57d0;
+  padding: 10px 15px;
+  color: white;
+  transition: 0.3s;
+  outline: none;
+  transition: 0.3s;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+.sendEmailButton:hover {
+  background: #0863f5;
+}

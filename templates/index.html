@@ -26,10 +26,9 @@
                 
                 <div id="uploadFileSection">
                     <ul>
-                        <li>Files must be under 10MB.</li>
-                        <li>All other file types are rejected.</li>
-                        <li>A file must contain Email or email in headers</li>
-                        <li>A template .CSV file can be found here</li>
+                        <li>Only .csv files will be accepted</li>
+                        <li>A file must contain headers, and "Email" without the quotation marks must be one of the headers</li>
+                        <li>A template .CSV file can be found <a href="{{ url_for('static', filename="template.csv") }}">here</a></li>
                     </ul>
 
                     <form id="uploadTableForm">
@@ -38,27 +37,47 @@
                     </form>
                 </div>
 
-                <div id="writeEmailSection" style="display: none;">
+                <div class="writeEmailSection" id="writeEmailSection" style="display: none;">
+                <!-- <div class="writeEmailSection" id="writeEmailSection"> -->
 
-                    <table id="contactTable">
-                        <tr id="columns"></tr>
-                    </table>
+                    <div class="fileSummaryContainer">
+                        <div class="fileSummaryTextContainer">
+                            <p class="summaryTitle">Summary of Uploaded File</p>
+                            <p>Total rows: <span id="fileRows"></span></p>
+                            <p>Headers: <span id="fileHeaders"></span></p>
+                            <p>Valid emails: <span id="fileValidEmails"></span></p>
+                            <p>Invalid emails: <span id="fileInvalidEmails"></span></p>
+                        </div>
+                        <table id="contactTable">
+                            <p class="rowsDisplayedText">Rows <span id="rowsDisplayed">0</span> out of <span id="totalRows">0</span> displayed...</p>
+                            <tr id="columns"></tr>
+                        </table>
+                    </div>
 
                     <div class="writeEmailContainer">
                         <h2>Write Your Email</h2>
                         <p>Please use the following Header Replacements. Those variables will be replaced by actual values while sending an Email.<br/>Header Replacements:</p>
                         <ul id="variablesList"></ul>
-                        <input id="subjectForm" placeholder="Subject">
+                        <input id="subjectForm" class="subjectForm" placeholder="Subject" onchange="createEmailPreview()">
                         <!-- Rich text editor -->
                         <div id="richTextEditor"></div>
                         <!-- Rich text editor ^^^ -->
 
                         <p>Note: Uploaded images may not display properly on some web browsers!</p>
-                        <button onclick="sendEmails()">Send emails</button>
+                        <button class="sendEmailButton" onclick="previewEmail(true)">Preview email</button>
+                        <button class="sendEmailButton" onclick="sendEmails()">Send emails</button>
                     </div>
+                    
+                    <div class="previewEmailTint" id="previewEmailTint" onclick="previewEmail(false)" style="display:none;"></div>
 
-                    <div class="previewEmailContainer">
-
+                    <div class="previewEmailContainer" id="previewEmailContainer" style="display:none;">
+                        <h2 class="emailPreviewTitle">Email Preview:<span onclick="previewEmail(false)" class="closePreviewX">&#10006;</span></h2>
+                        <div class="emailPreview">
+                            <div class="previewSubject">
+                                <p><b>Subject: </b><span id="subjectPreview"></span></p>
+                            </div>
+                            <div class="previewMessage" id="messagePreview"></div>
+                        </div>
                     </div>
                 </div>
 
@@ -73,16 +92,37 @@
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <!-- JavaScript file for uploading table and displaying it's next steps  -->
 <script src="{{ url_for('static', filename='javascript/uploadTable.js') }}"></script>
-
+<!-- Preview email code -->
+<script src="{{ url_for('static', filename='javascript/createPreview.js') }}"></script>
 <!-- Ajax - for sending js data to flask async -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
 <script>
 	var textEditor = new RichTextEditor("#richTextEditor");
-	//editor1.setHTMLCode("Use inline HTML or setHTMLCode to init the default content.");
-    // textEditor.attachEvent("change", function () {      
-    //     console.log(textEditor.getHTMLCode())    
-    // });   
+    textEditor.attachEvent("change", function () {      
+        console.log(textEditor.getHTMLCode())    
+        createEmailPreview()
+    });   
+
+    function createEmailPreview() {
+        const subject = document.getElementById("subjectForm").value;
+        const message = textEditor.getHTMLCode();
+
+        // Insert preview variables
+        var modifiedSubject = subject
+        var modifiedMessage = message
+        const previewRecipient = getPreviewData()
+        for (const variable of getVarList()) {
+            // If user adds a variable into their subject or message, replace it with the actual value
+            const insertedVar = `%${variable.replace(' ', '_').toUpperCase()}%`
+            console.log(insertedVar)
+            modifiedSubject = modifiedSubject.replaceAll(insertedVar, previewRecipient[variable])
+            modifiedMessage = modifiedMessage.replaceAll(insertedVar, previewRecipient[variable])
+        }
+
+        document.getElementById("subjectPreview").innerHTML = modifiedSubject;
+        document.getElementById("messagePreview").innerHTML = modifiedMessage;
+    }
 
     function sendEmails() {
         emailContent = {
@@ -93,10 +133,6 @@
         }
         console.log(emailContent)
 
-        // $.post( "/sendemails", {
-        //     data: emailContent,
-        //     receivers: getCSVData()
-        // });
         $.ajax({
                 type: "POST",
                 url: "/sendemails",
