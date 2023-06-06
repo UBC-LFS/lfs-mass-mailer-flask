@@ -151,3 +151,57 @@ tr:hover {
 .sendEmailButton:hover {
   background: #0863f5;
 }
+
+.fullLoadingContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh; 
+}
+.loadingTint {
+  position: fixed;
+  background: #000;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  opacity: 0.3;
+}
+.loadingContainer {
+  position: fixed;
+  top: 25%;
+  margin: 0 auto;
+  background: white;
+  width: 80%;
+  height: 50%;
+  display: block;
+  left: 10%;
+  border-radius: 10px;
+  z-index: 1;
+  max-height: 80vh;
+  overflow: hidden;
+}
+.loadingTitle {
+  position: relative;
+  text-align: center;
+  margin: 40px auto;
+}
+
+.loadingCircle {
+  width: 100px;
+  height: 100px;
+  border: solid 10px #0863f5;
+  border-radius: 50%;
+  border-top-color: #f5f5f5;
+  border-bottom-color: #f5f5f5;
+  border-right-color: #f5f5f5;
+  display: block;
+  margin: 0 auto;
+  animation: 1.5s linear rotateCircle infinite;
+}
+
+@keyframes rotateCircle {
+  from {transform: rotate(0deg);}
+  to {transform: rotate(360deg);}
+}

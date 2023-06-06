@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_from_directory, redirect, url_for
+from flask import Flask, jsonify, render_template, request, send_from_directory, redirect, url_for
 from dotenv import load_dotenv
 
 import sendEmail
@@ -15,12 +15,14 @@ def home():
 def getEmailContent():
     jsdata = request.form
     formattedData = jsdata.to_dict(flat=False)
+    # Render loading screen in HTML
     subject = formattedData["subject"][0]
     message = formattedData["HTMLemailContent"][0]
     variables = formattedData["varList[]"]
     recipients = sendEmail.buildReceiversData(formattedData, variables)
-    sendEmail.sendEmails(recipients, subject, message, variables)
-    return "Received email"
+    receivers, failedReceivers = sendEmail.sendEmails(recipients, subject, message, variables)
+    # Finish sending emails, render results in HTML
+    return jsonify(success=1, output={"receivers":receivers,"failedReceivers":failedReceivers}, error=None)
 
 if __name__ == "__main__":
     app.run(debug=True)

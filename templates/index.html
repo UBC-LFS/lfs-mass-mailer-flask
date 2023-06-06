@@ -37,8 +37,8 @@
                     </form>
                 </div>
 
-                <div class="writeEmailSection" id="writeEmailSection" style="display: none;">
-                <!-- <div class="writeEmailSection" id="writeEmailSection"> -->
+                <!-- <div class="writeEmailSection" id="writeEmailSection" style="display: none;"> -->
+                <div class="writeEmailSection" id="writeEmailSection">
 
                     <div class="fileSummaryContainer">
                         <div class="fileSummaryTextContainer">
@@ -65,7 +65,7 @@
 
                         <p>Note: Uploaded images may not display properly on some web browsers!</p>
                         <button class="sendEmailButton" onclick="previewEmail(true)">Preview email</button>
-                        <button class="sendEmailButton" onclick="sendEmails()">Send emails</button>
+                        <button class="sendEmailButton" id="sendEmailsBTN" onclick="sendEmails()">Send emails</button>
                     </div>
                     
                     <div class="previewEmailTint" id="previewEmailTint" onclick="previewEmail(false)" style="display:none;"></div>
@@ -79,6 +79,14 @@
                             <div class="previewMessage" id="messagePreview"></div>
                         </div>
                     </div>
+                </div>
+
+                <div class="fullLoadingContainer" id="fullLoadingContainer" style="display: none;">
+                    <div class="loadingTint"></div>
+                    <div class="loadingContainer">
+                        <h2 class="loadingTitle">Sending emails, please wait...</h2>
+                        <div class="loadingCircle"></div>
+                    </div>                    
                 </div>
 
             </div>
@@ -125,6 +133,10 @@
     }
 
     function sendEmails() {
+        // disables the button to prevent accidental double clicks
+        document.getElementById("sendEmailsBTN").disabled = true;
+        document.getElementById("fullLoadingContainer").style.display = "block";
+        // renders loading screen
         emailContent = {
             subject:document.getElementById("subjectForm").value,
             HTMLemailContent:textEditor.getHTMLCode(),
@@ -137,7 +149,11 @@
                 type: "POST",
                 url: "/sendemails",
                 data: emailContent,
-                dataType: "json"
+                dataType: "json",
+                success: function(response) {
+                    console.log(response.output);
+                    document.getElementById("fullLoadingContainer").style.display = "none";
+                }
         });
     }
 
