@@ -37,8 +37,8 @@
                     </form>
                 </div>
 
-                <!-- <div class="writeEmailSection" id="writeEmailSection" style="display: none;"> -->
-                <div class="writeEmailSection" id="writeEmailSection">
+                <div class="writeEmailSection" id="writeEmailSection" style="display: none;">
+                <!-- <div class="writeEmailSection" id="writeEmailSection"> -->
 
                     <div class="fileSummaryContainer">
                         <div class="fileSummaryTextContainer">
@@ -102,12 +102,30 @@
                         <table class="resultsTable" id="successfulResults">
                             <p class="resultsDisplayedText">Successfully sent emails to:</p>
                         </table>
-
                     </div>                    
                 </div>
+
+                <!-- Login -->
+                <!-- <div class="fullLoginContainer" id="fullLoginContainer" style="display: none;"> -->
+                    <div class="fullLoginContainer" id="fullLoginContainer">
+                        <div class="popupTint"></div>
+                        <div class="loginContainer">
+                            <h1>Login</h1>
+                            <form>
+                                <label>CWL:</label>
+                                <input placeholder="xxxx00">
+                                </br></br>
+                                <label>Password:</label>
+                                <input placeholder="*******">
+                                </br></br>
+                                <button>Login</button>
+                            </form>
+                        </div>                    
+                    </div>
+                <!-- Login ^^^ -->
             </div>
 
-            <!-- {% include 'footer.html' %} -->
+            {% include 'footer.html' %}
         </div>
     </body>
 </html>

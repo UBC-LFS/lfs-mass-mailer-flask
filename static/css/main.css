@@ -186,6 +186,7 @@ tr:hover {
   position: relative;
   text-align: center;
   margin: 40px auto;
+  margin-top: 100px;
 }
 
 .loadingCircle {
@@ -263,3 +264,27 @@ tr:hover {
 }
 
 /* Results container ^^ */
+
+/* Login container */
+.fullLoginContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh; 
+}
+.loginContainer {
+  position: fixed;
+  top: 8%;
+  margin: 0 auto;
+  background: white;
+  width: 46%;
+  height: 76%;
+  display: block;
+  left: 25%;
+  border-radius: 10px;
+  z-index: 1;
+  max-height: 80vh;
+  padding: 2%;
+}
+/* Login container ^^^ */
