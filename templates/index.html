@@ -113,12 +113,12 @@
                             <h1>Login</h1>
                             <form>
                                 <label>CWL:</label>
-                                <input placeholder="xxxx00">
+                                <input placeholder="xxxx00" id="cwl">
                                 </br></br>
                                 <label>Password:</label>
-                                <input placeholder="*******">
+                                <input placeholder="*******" id="password">
                                 </br></br>
-                                <button>Login</button>
+                                <button onclick="login()" type="button">Login</button>
                             </form>
                         </div>                    
                     </div>
@@ -166,6 +166,22 @@
         document.getElementById("messagePreview").innerHTML = modifiedMessage;
     }
 
+    function login() {
+        userLogin = {
+            cwl: document.getElementById("cwl").value,
+            password: document.getElementById("password").value
+        }
+        $.ajax({
+            type: "POST",
+            url: "/login",
+            data: userLogin,
+            dataType: "json",
+            success: function(response) {
+                console.log(response.output);
+            }
+        })
+    }
+
     function sendEmails() {
         // disables the button to prevent accidental double clicks
         document.getElementById("sendEmailsBTN").disabled = true;
@@ -190,5 +206,4 @@
                 }
         });
     }
-
 </script>
