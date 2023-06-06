@@ -48,7 +48,7 @@
                             <p>Valid emails: <span id="fileValidEmails"></span></p>
                             <p>Invalid emails: <span id="fileInvalidEmails"></span></p>
                         </div>
-                        <table id="contactTable">
+                        <table class="contactTable" id="contactTable">
                             <p class="rowsDisplayedText">Rows <span id="rowsDisplayed">0</span> out of <span id="totalRows">0</span> displayed...</p>
                             <tr id="columns"></tr>
                         </table>
@@ -82,13 +82,29 @@
                 </div>
 
                 <div class="fullLoadingContainer" id="fullLoadingContainer" style="display: none;">
-                    <div class="loadingTint"></div>
+                    <div class="popupTint"></div>
                     <div class="loadingContainer">
                         <h2 class="loadingTitle">Sending emails, please wait...</h2>
                         <div class="loadingCircle"></div>
                     </div>                    
                 </div>
 
+                <div class="resultsContainer" id="resultsContainer" style="display: none;">
+                <!-- <div class="fullResultsContainer" id="fullResultsContainer"> -->
+                    <div class="popupTint"></div>
+                    <div class="resultsContainer">
+                        <button class="resultsDoneBTN" onclick="window.location.reload();">Done</button>
+
+                        <table class="resultsTable" id="failedResults">
+                            <p class="resultsDisplayedText">Failed to send emails to:</p>
+                        </table>
+
+                        <table class="resultsTable" id="successfulResults">
+                            <p class="resultsDisplayedText">Successfully sent emails to:</p>
+                        </table>
+
+                    </div>                    
+                </div>
             </div>
 
             <!-- {% include 'footer.html' %} -->
@@ -151,8 +167,8 @@
                 data: emailContent,
                 dataType: "json",
                 success: function(response) {
-                    console.log(response.output);
                     document.getElementById("fullLoadingContainer").style.display = "none";
+                    buildResults(response.output["receivers"], response.output["failedReceivers"])
                 }
         });
     }
