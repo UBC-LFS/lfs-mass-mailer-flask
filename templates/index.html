@@ -106,22 +106,22 @@
                 </div>
 
                 <!-- Login -->
-                <!-- <div class="fullLoginContainer" id="fullLoginContainer" style="display: none;"> -->
-                    <div class="fullLoginContainer" id="fullLoginContainer">
-                        <div class="popupTint"></div>
-                        <div class="loginContainer">
-                            <h1>Login</h1>
-                            <form>
-                                <label>CWL:</label>
-                                <input placeholder="xxxx00" id="cwl">
-                                </br></br>
-                                <label>Password:</label>
-                                <input placeholder="*******" id="password" type="password">
-                                </br></br>
-                                <button onclick="login()" type="button">Login</button>
-                            </form>
-                        </div>                    
-                    </div>
+                <div class="fullLoginContainer" id="fullLoginContainer">
+                    <div class="popupTint"></div>
+                    <div class="loginContainer">
+                        <h1 style="text-align: center; margin-bottom: 60px;">Login</h1>
+                        <form class="loginForm">
+                            <label>CWL <span style="color:red;">*</span></label>
+                            <input class="loginInput" placeholder="xxxx00" id="cwl">
+                            </br></br>
+                            <label>Password <span style="color:red;">*</span></label>
+                            <input class="loginInput" placeholder="*******" id="password" type="password">
+                            </br></br>
+                            <p class="incorrectLoginText" id="incorrectLoginText" style="display: none;">Authorization failed</p>
+                            <button class="loginBtn" onclick="login()" type="button">Login</button>
+                        </form>
+                    </div>                    
+                </div>
                 <!-- Login ^^^ -->
             </div>
 
@@ -136,6 +136,8 @@
 <script src="{{ url_for('static', filename='javascript/uploadTable.js') }}"></script>
 <!-- Preview email code -->
 <script src="{{ url_for('static', filename='javascript/createPreview.js') }}"></script>
+<!-- Login code -->
+<script src="{{ url_for('static', filename='javascript/login.js') }}"></script>
 <!-- Ajax - for sending js data to flask async -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
@@ -177,33 +179,42 @@
             data: userLogin,
             dataType: "json",
             success: function(response) {
-                console.log(response.output);
+                loginResult(response.output);
             }
         })
     }
 
     function sendEmails() {
-        // disables the button to prevent accidental double clicks
-        document.getElementById("sendEmailsBTN").disabled = true;
-        document.getElementById("fullLoadingContainer").style.display = "block";
-        // renders loading screen
-        emailContent = {
-            subject:document.getElementById("subjectForm").value,
-            HTMLemailContent:textEditor.getHTMLCode(),
-            receivers: getCSVData(),
-            varList: getVarList()
-        }
-        console.log(emailContent)
+        if (getSessionID()) {
+            // disables the button to prevent accidental double clicks
+            document.getElementById("sendEmailsBTN").disabled = true;
+            document.getElementById("fullLoadingContainer").style.display = "block";
+            // renders loading screen
+            emailContent = {
+                subject:document.getElementById("subjectForm").value,
+                HTMLemailContent:textEditor.getHTMLCode(),
+                receivers: getCSVData(),
+                varList: getVarList(),
+                sessionID: getSessionID()
+            }
+            console.log(emailContent)
 
-        $.ajax({
-                type: "POST",
-                url: "/sendemails",
-                data: emailContent,
-                dataType: "json",
-                success: function(response) {
-                    document.getElementById("fullLoadingContainer").style.display = "none";
-                    buildResults(response.output["receivers"], response.output["failedReceivers"])
-                }
-        });
+            $.ajax({
+                    type: "POST",
+                    url: "/sendemails",
+                    data: emailContent,
+                    dataType: "json",
+                    success: function(response) {
+                        document.getElementById("fullLoadingContainer").style.display = "none";
+                        buildResults(response.output["receivers"], response.output["failedReceivers"])
+                    }
+            });
+        }
+
+        // SessionID undefined (user probably bypassed login page with inspect element/potential bug)
+        else {
+            alert("Error, you did not login!")
+            document.getElementById("fullLoginContainer").style.display = "block";
+        }
     }
 </script>

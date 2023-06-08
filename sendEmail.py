@@ -17,9 +17,9 @@ PASSWORD = os.getenv("PASSWORD")
 def buildReceiversData(data, variables):
     recipients = []
     # Data is sent by ajax in a weird format
-    # len(data) - 2 (removes the subject and email content from the data count)
+    # len(data) - 3 (removes the subject, email content, and sessionID from the data count)
     # divide by # of variables
-    numOfRecipients = int((len(data) - 2)/len(variables))
+    numOfRecipients = int((len(data) - 3)/len(variables))
     for i in range(numOfRecipients):
         recipient = {}
         for var in variables:

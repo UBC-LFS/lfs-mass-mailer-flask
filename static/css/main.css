@@ -287,4 +287,39 @@ tr:hover {
   max-height: 80vh;
   padding: 2%;
 }
+.loginForm {
+  width: 90%;
+  margin: 0 auto;
+  display: block;
+}
+.loginInput {
+  border: none;
+  border-bottom: 1px solid black;
+  outline: none;
+  width: 100%;
+  margin-top: 20px;
+}
+.loginBtn {
+  background: #002145;
+  color: white;
+  outline: 2px solid #002145;
+  border: none;
+  padding: 10px 50px;
+  cursor: pointer;
+  border-radius: 20px;
+  margin: 0 auto;
+  display: block;
+  font-weight: bold;
+  transition: 0.3s;
+  margin-top: 40px;
+}
+.loginBtn:hover {
+  outline: 2px solid #002145;
+  background: transparent;
+  color: #002145;
+}
+.incorrectLoginText {
+  color: red;
+}
+
 /* Login container ^^^ */
