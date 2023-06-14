@@ -94,8 +94,3 @@ form.addEventListener("submit", function (e) {
     reader.readAsText(input);
 });
 
-// const placeholderData = [{"First Name":"Christian","Last Name":"Gage","Email":"donald.lee@ubc.ca"},{"First Name":"Deana","Last Name":"Eartha","Email":"donald.lee@ubc.ca"},{"First Name":"Ricky","Last Name":"Frazier","Email":"donald.lee@ubc.ca"},{"First Name":"Benton","Last Name":"Demelza","Email":"donald.lee@ubc.ca"},{"First Name":"Aden","Last Name":"Branda","Email":"donald.lee@ubc.ca"},{"First Name":"Dorian","Last Name":"Edie","Email":"donald.lee@ubc.ca"},{"First Name":"Meriel","Last Name":"Margie","Email":"donald.lee@ubc.ca"},{"First Name":"Angelina","Last Name":"Daren","Email":"donald.lee@ubc.ca"},{"First Name":"Yolanda","Last Name":"Emmerson","Email":"donald.lee@ubc.ca"}]
-
-csvData = placeholderData
-buildTable(placeholderData)
-
