@@ -1,4 +1,4 @@
-import smtplib
+from smtplib import SMTP
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import email.message
@@ -8,23 +8,28 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-HOST = os.getenv("EMAIL_HOST")
-PORT = os.getenv("PORT")
-USER = os.getenv("ACCOUNT_USER")
-PASSWORD = os.getenv("ACCOUNT_PASS")
+HOST = ""
+ALIAS_EMAIL = ""
+ALIAS_NAME = ""
+TRANSPORTER_OPTIONS = "smtpRelay"
 
-ALIAS_EMAIL = os.getenv("ACCOUNT_EMAIL")
-ALIAS_NAME = os.getenv("ACCOUNT_NAME")
+if (TRANSPORTER_OPTIONS == "smtpRelay"):
+    msg = email.message.Message()
+    msg.add_header('Content-Type','text/html')
+    msg['From'] = f"{ALIAS_NAME} <{ALIAS_EMAIL}>" 
+    PORT = 25
+    emailService = SMTP(host=HOST, port=PORT)
 
-msg = email.message.Message()
-msg['Subject'] = "HELLO"
-msg['From']    = f"{ALIAS_NAME} <{ALIAS_EMAIL}>" # Your from name and email address
-msg['To']      = USER
-
-msg.set_payload("Hi")
-server = smtplib.SMTP(host=HOST, port=587)
-server.ehlo()
-server.starttls()
-server.login(user=USER, password=PASSWORD)
-server.sendmail(msg['From'], msg['To'], msg.as_string())
-server.close()
+    msg['Subject'] = "Hello"
+    message = f"""\
+        <html>
+        <head></head>
+        <body>
+            <p>Hello, World!</p>
+        </body>
+        </html>
+    """
+    msg.set_payload(message)
+    msg['To'] = ""
+    emailService.sendmail(msg['From'], msg['to'], msg.as_string())
+    emailService.quit()

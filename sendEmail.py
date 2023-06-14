@@ -36,13 +36,7 @@ def sendEmails(recipients, subject, draftMessage, variables):
                 msg = email.message.Message()
                 msg.add_header('Content-Type','text/html')
 
-                if (TRANSPORTER_OPTIONS == "smtpRelay"):
-                    msg['From'] = f"{ALIAS_NAME} <{ALIAS_EMAIL}>" 
-                    PORT = 25
-                    emailService = SMTP(host=HOST, port=PORT)
-
-                # smtp (default)
-                else:
+                if (TRANSPORTER_OPTIONS == "smtp"):
                     msg['From'] = USER 
                     PORT = 587
                     emailService = SMTP(host=HOST, port=PORT)
@@ -50,6 +44,12 @@ def sendEmails(recipients, subject, draftMessage, variables):
                     emailService.starttls()
                     emailService.login(user=USER, password=PASSWORD, initial_response_ok=True)
                 
+                # smtpRelay (default)
+                else:
+                    msg['From'] = f"{ALIAS_NAME} <{ALIAS_EMAIL}>" 
+                    PORT = 25
+                    emailService = SMTP(host=HOST, port=PORT)
+                    
                 modifiedSubject = subject
                 modifiedDraftMessage = draftMessage
                 # If user adds a variable into their subject or message, replace it with the actual value
