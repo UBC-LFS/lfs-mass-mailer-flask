@@ -8,11 +8,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-HOST = os.getenv("HOST")
-PORT = os.getenv("PORT")
-USER = os.getenv("USER")
-PASSWORD = os.getenv("PASSWORD")
-
+HOST = os.getenv("EMAIL_HOST")
+USER = os.getenv("ACCOUNT_USER")
+PASSWORD = os.getenv("ACCOUNT_PASS")
+ALIAS_EMAIL = os.getenv("ALIAS_EMAIL")
+ALIAS_NAME = os.getenv("ALIAS_NAME")
+TRANSPORTER_OPTIONS = os.getenv("TRANSPORTER_OPTIONS")
 
 def buildReceiversData(data, variables):
     recipients = []
@@ -33,13 +34,22 @@ def sendEmails(recipients, subject, draftMessage, variables):
         for i in range(len(recipients)):
             try:
                 msg = email.message.Message()
-                msg['From'] = USER
                 msg.add_header('Content-Type','text/html')
-                emailService = SMTP(host=HOST, port=PORT)
-                emailService.ehlo()
-                emailService.starttls()
-                emailService.login(user=USER, password=PASSWORD, initial_response_ok=True)
 
+                if (TRANSPORTER_OPTIONS == "smtpRelay"):
+                    msg['From'] = f"{ALIAS_NAME} <{ALIAS_EMAIL}>" 
+                    PORT = 25
+                    emailService = SMTP(host=HOST, port=PORT)
+
+                # smtp (default)
+                else:
+                    msg['From'] = USER 
+                    PORT = 587
+                    emailService = SMTP(host=HOST, port=PORT)
+                    emailService.ehlo()
+                    emailService.starttls()
+                    emailService.login(user=USER, password=PASSWORD, initial_response_ok=True)
+                
                 modifiedSubject = subject
                 modifiedDraftMessage = draftMessage
                 # If user adds a variable into their subject or message, replace it with the actual value
@@ -74,6 +84,3 @@ def sendEmails(recipients, subject, draftMessage, variables):
 
     failedReceivers = [failedReceiver for failedReceiver in recipients if failedReceiver not in receivers]
     return receivers, failedReceivers 
-
-# to = input("Who would you like to send this email to?: ")
-# sendEmail(to)

@@ -99,6 +99,7 @@ tr:hover {
     z-index: 1;
     max-height: 80vh;
     overflow: hidden;
+    overflow-y: auto;
 }
 .emailPreview {
   padding: 20px;
@@ -186,7 +187,7 @@ tr:hover {
   position: relative;
   text-align: center;
   margin: 40px auto;
-  margin-top: 100px;
+  margin-top: 50px;
 }
 
 .loadingCircle {
