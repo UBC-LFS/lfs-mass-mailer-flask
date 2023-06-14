@@ -1,6 +1,8 @@
 # lfs-mass-mailer-flask
 An application to send mass emails via aliases, used internally by the LFS Learning Centre.
 
+Note: Logging in with your CWL only works if you are connected to a UBC wifi
+
 ## Installation Set up
 
 ### Clone the repository
@@ -23,7 +25,7 @@ LDAP_AUTH_DN=
 LDAP_AUTH_PASSWORD=
 LDAP_SEARCH_FILTER=
 
-# SMTP/SMTP Relay
+# "smtp.mail.ubc.ca" OR "smtp.mail-relay.ubc.ca"
 EMAIL_HOST=
 # Sender's username and password (smpt option)
 ACCOUNT_USER=
@@ -31,7 +33,7 @@ ACCOUNT_PASS=
 # Alias (smptRelay option)
 ALIAS_EMAIL=
 ALIAS_NAME=
-# "smpt" OR "smptRelay"
+# "smpt" (default) OR "smptRelay"
 TRANSPORTER_OPTIONS=
 ```
 
