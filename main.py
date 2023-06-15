@@ -1,13 +1,9 @@
 import os
-from flask import Flask, jsonify, render_template, request, send_from_directory, redirect, url_for
+from flask import Flask, jsonify, render_template, request
 from dotenv import load_dotenv
-from flask_login import LoginManager, login_user, UserMixin, current_user
+from flask_login import LoginManager, current_user
 from flask_ldap3_login import LDAP3LoginManager
-from flask_ldap3_login.forms import LDAPLoginForm
-from ldap3 import Tls
-import ssl
 import exrex
-
 import sendEmail
 
 load_dotenv()

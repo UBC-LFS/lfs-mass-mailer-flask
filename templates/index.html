@@ -90,7 +90,6 @@
                 </div>
 
                 <div class="resultsContainer" id="resultsContainer" style="display: none;">
-                <!-- <div class="fullResultsContainer" id="fullResultsContainer"> -->
                     <div class="popupTint"></div>
                     <div class="resultsContainer">
                         <button class="resultsDoneBTN" onclick="window.location.reload();">Done</button>
@@ -212,6 +211,7 @@
                         else {
                             alert("Error, please login again!")
                             document.getElementById("fullLoginContainer").style.display = "block";
+                            // Re-enables the button
                             document.getElementById("sendEmailsBTN").disabled = false;
                         }
                     }
@@ -222,6 +222,7 @@
         else {
             alert("Error, you did not login!")
             document.getElementById("fullLoginContainer").style.display = "block";
+            // Re-enables the button
             document.getElementById("sendEmailsBTN").disabled = false;
         }
     }

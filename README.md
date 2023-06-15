@@ -63,6 +63,7 @@ python main.py
     - validates LDAP logins
     - formats data sent from the frontend
     - sends results back to frontend
+    - logs out user
 - sendEmail.py
     - code for sending out emails and formatting recipients data
 - templates
@@ -83,6 +84,7 @@ python main.py
         - login.js
             - saves users login auth status and sessionID
             - detect form "enter" events
+            - logs out user
         - uploadTable.js
             - process uploaded .csv file and displays table rows and summary
     - richtexteditor (the richtexteditor library - no need to modify this folder)
