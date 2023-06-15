@@ -12,7 +12,6 @@ HOST = os.getenv("EMAIL_HOST")
 USER = os.getenv("ACCOUNT_USER")
 PASSWORD = os.getenv("ACCOUNT_PASS")
 ALIAS_EMAIL = os.getenv("ALIAS_EMAIL")
-ALIAS_NAME = os.getenv("ALIAS_NAME")
 TRANSPORTER_OPTIONS = os.getenv("TRANSPORTER_OPTIONS")
 
 def buildReceiversData(data, variables):
@@ -46,7 +45,7 @@ def sendEmails(recipients, subject, draftMessage, variables):
                 
                 # smtpRelay (default)
                 else:
-                    msg['From'] = f"{ALIAS_NAME} <{ALIAS_EMAIL}>" 
+                    msg['From'] = f"{USER} <{ALIAS_EMAIL}>" 
                     PORT = 25
                     emailService = SMTP(host=HOST, port=PORT)
                     

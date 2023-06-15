@@ -31,13 +31,13 @@ LDAP_SEARCH_FILTER=
 
 # "smtp.mail.ubc.ca" OR "smtp.mail-relay.ubc.ca"
 EMAIL_HOST=
-# Sender's username and password (smpt option)
+# Sender's email (smtp option) or alias name(smtpRelay option)
 ACCOUNT_USER=
+# password only for smtp option
 ACCOUNT_PASS=
-# Alias (smptRelay option)
+# Alias email for smtpRelay option
 ALIAS_EMAIL=
-ALIAS_NAME=
-# "smpt" (default) OR "smptRelay"
+# "smtp" (default) OR "smtpRelay"
 TRANSPORTER_OPTIONS=
 ```
 ### Running the website 
