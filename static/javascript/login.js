@@ -19,8 +19,8 @@ function checkSessionID() {
     let cookie = decodeURIComponent(document.cookie);
     let ca = cookie.split(';');
     sessionID = ca[0].split("=")[1];
-    if (sessionID != "null") {
-        document.getElementById("fullLoginContainer").style.display = "none";
+    if (sessionID == "null") {
+        document.getElementById("fullLoginContainer").style.display = "block";
     }
 }
 
