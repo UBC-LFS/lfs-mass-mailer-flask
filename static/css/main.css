@@ -88,6 +88,7 @@ tr:hover {
   left: 0;
   opacity: 0.3;
   cursor: pointer;
+  z-index: 2;
 }
 
 .previewEmailContainer {
@@ -96,7 +97,7 @@ tr:hover {
     background: white;
     width: 80%;
     border-radius: 10px;
-    z-index: 1;
+    z-index: 2;
     max-height: 80vh;
     overflow: hidden;
     overflow-y: auto;
@@ -159,6 +160,7 @@ tr:hover {
   left: 0;
   width: 100vw;
   height: 100vh; 
+  z-index: 1;
 }
 .popupTint {
   position: fixed;
@@ -168,6 +170,7 @@ tr:hover {
   height: 100vh;
   left: 0;
   opacity: 0.3;
+  z-index: 2;
 }
 .loadingContainer {
   position: fixed;
@@ -179,7 +182,7 @@ tr:hover {
   display: block;
   left: 10%;
   border-radius: 10px;
-  z-index: 1;
+  z-index: 2;
   max-height: 80vh;
   overflow: hidden;
 }
@@ -214,7 +217,8 @@ tr:hover {
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh; 
+  height: 100vh;
+  z-index: 1; 
 }
 .resultsContainer {
   position: fixed;
@@ -226,7 +230,7 @@ tr:hover {
   display: block;
   left: 10%;
   border-radius: 10px;
-  z-index: 1;
+  z-index: 2;
   max-height: 80vh;
   overflow: hidden;
   overflow-y: scroll;
@@ -273,6 +277,7 @@ tr:hover {
   left: 0;
   width: 100vw;
   height: 100vh; 
+  z-index: 1;
 }
 .loginContainer {
   position: fixed;
@@ -284,7 +289,7 @@ tr:hover {
   display: block;
   left: 25%;
   border-radius: 10px;
-  z-index: 1;
+  z-index: 2;
   max-height: 80vh;
   padding: 2%;
 }

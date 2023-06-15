@@ -71,6 +71,7 @@ def save_user(sessionID, cwl):
 
 @app.route("/")
 def home():
+    print(users)
     return render_template("index.html")
 
 @app.route('/login', methods = ['POST'])
@@ -116,6 +117,13 @@ def getEmailContent():
     else:
         print("Invalid user!")
         return jsonify(success=1, output="authFailed", error=None)
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    jsdata = request.form
+    sessionID = jsdata.to_dict(flat=False)["data"][0]
+    users.pop(sessionID, None)
+    return "logged out"
 
 if __name__ == "__main__":
     app.run(debug=True)

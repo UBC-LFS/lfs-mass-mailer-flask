@@ -58,6 +58,18 @@
         line-height: 50px;
     }
 }
+
+.logoutButton {
+    float: right;
+    color: #fff;
+    background-color: #ab1f2e;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    z-index: 1;
+    position: relative;
+    bottom: -4.5px;
+}
 /* Nav bar ^^^ */
 
 /* Footer */

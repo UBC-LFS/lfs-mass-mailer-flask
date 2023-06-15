@@ -4,13 +4,37 @@ function getSessionID() {
     return sessionID;
 }
 
+function logout() {
+    document.cookie = "sessionID=null; path=/;";
+    $.ajax({
+        type: "POST",
+        url: "/logout",
+        data: {"data": getSessionID()},
+        dataType: "json"
+    })
+    location.reload()
+}
+
+function checkSessionID() {
+    let cookie = decodeURIComponent(document.cookie);
+    let ca = cookie.split(';');
+    sessionID = ca[0].split("=")[1];
+    if (sessionID != "null") {
+        document.getElementById("fullLoginContainer").style.display = "none";
+    }
+}
+
+checkSessionID()
+
 function loginResult(auth) {
     if (auth) {
         document.getElementById("fullLoginContainer").style.display = "none";
         sessionID = auth;
+        document.cookie = "sessionID=" + sessionID + "; path=/";
     }
     else {
         document.getElementById("incorrectLoginText").style.display = "block";
+        document.cookie = "sessionID=null; path=/;";
     }
 }
 

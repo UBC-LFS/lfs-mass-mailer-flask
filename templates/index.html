@@ -206,7 +206,14 @@
                     dataType: "json",
                     success: function(response) {
                         document.getElementById("fullLoadingContainer").style.display = "none";
-                        buildResults(response.output["receivers"], response.output["failedReceivers"])
+                        if (response.output != "authFailed") {
+                            buildResults(response.output["receivers"], response.output["failedReceivers"])
+                        }
+                        else {
+                            alert("Error, please login again!")
+                            document.getElementById("fullLoginContainer").style.display = "block";
+                            document.getElementById("sendEmailsBTN").disabled = false;
+                        }
                     }
             });
         }
@@ -215,6 +222,7 @@
         else {
             alert("Error, you did not login!")
             document.getElementById("fullLoginContainer").style.display = "block";
+            document.getElementById("sendEmailsBTN").disabled = false;
         }
     }
 </script>
