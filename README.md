@@ -88,4 +88,4 @@ python main.py
         - uploadTable.js
             - process uploaded .csv file and displays table rows and summary
     - richtexteditor (the richtexteditor library - no need to modify this folder)
-        - if the text editor ever expires or breaks, you can re-install it: https://richtexteditor.com/download.aspx
+        - if the text editor ever expires or breaks, you can re-install it and re-upload the new folder: https://richtexteditor.com/download.aspx
