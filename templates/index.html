@@ -169,6 +169,9 @@
         document.getElementById("messagePreview").innerHTML = modifiedMessage;
     }
 
+    // Create email preview on load
+    createEmailPreview()
+
     function login() {
         userLogin = {
             cwl: document.getElementById("cwl").value,
@@ -193,7 +196,7 @@
             // renders loading screen
             emailContent = {
                 subject:document.getElementById("subjectForm").value,
-                HTMLemailContent:document.getElementById("messageForm").value,
+                HTMLemailContent: "<p>" + document.getElementById("messageForm").value.replace(/\n/g, '<br>') + "</p>", // Replaces new lines with <br> tags
                 receivers: getCSVData(),
                 varList: getVarList(),
                 sessionID: getSessionID()
