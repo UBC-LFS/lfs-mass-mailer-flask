@@ -59,10 +59,10 @@
                         <h2>Write Your Email</h2>
                         <p>Please use the following Header Replacements. Those variables will be replaced by actual values while sending an Email.<br/>Header Replacements:</p>
                         <ul id="variablesList"></ul>
-                        <input id="subjectForm" class="subjectForm" placeholder="Subject" onchange="createEmailPreview()">
-                        <!-- Rich text editor -->
-                        <div id="richTextEditor"></div>
-                        <!-- Rich text editor ^^^ -->
+                        <div class = "inputContainer">
+                            <input id="subjectForm" class="subjectForm" placeholder="Subject" onchange="createEmailPreview()">
+                            <textarea id="messageForm" class="messageForm" placeholder="Message" onchange="createEmailPreview()"></textarea>
+                        </div>
 
                         <p>Note: Uploaded images may not display properly on some web browsers!</p>
                         <button class="sendEmailButton" onclick="previewEmail(true)">Preview email</button>
@@ -77,7 +77,11 @@
                             <div class="previewSubject">
                                 <p><b>Subject: </b><span id="subjectPreview"></span></p>
                             </div>
-                            <div class="previewMessage" id="messagePreview"></div>
+                            <div class="previewMessage">
+                                <span id="messagePreview" style="white-space: pre;">  
+
+                                </span>  
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -142,19 +146,16 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
 <script>
-	var textEditor = new RichTextEditor("#richTextEditor");
-    textEditor.attachEvent("change", function () {      
-        console.log(textEditor.getHTMLCode())    
-        createEmailPreview()
-    });   
 
     function createEmailPreview() {
+        console.log("createEmailPreview called")
         const subject = document.getElementById("subjectForm").value;
-        const message = textEditor.getHTMLCode();
+        const message = document.getElementById("messageForm").value;
 
         // Insert preview variables
         var modifiedSubject = subject
         var modifiedMessage = message
+        console.log(message)
         const previewRecipient = getPreviewData()
         for (const variable of getVarList()) {
             // If user adds a variable into their subject or message, replace it with the actual value
@@ -192,7 +193,7 @@
             // renders loading screen
             emailContent = {
                 subject:document.getElementById("subjectForm").value,
-                HTMLemailContent:textEditor.getHTMLCode(),
+                HTMLemailContent:document.getElementById("messageForm").value,
                 receivers: getCSVData(),
                 varList: getVarList(),
                 sessionID: getSessionID()
