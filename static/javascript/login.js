@@ -18,8 +18,15 @@ function logout() {
 function checkSessionID() {
     let cookie = decodeURIComponent(document.cookie);
     let ca = cookie.split(';');
-    sessionID = ca[0].split("=")[1];
-    if (sessionID == "null") {
+    let sessionID = null;
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i].trim();
+        if (c.indexOf("sessionID=") == 0) {
+            sessionID = c.substring("sessionID=".length, c.length);
+            break;
+        }
+    }
+    if (sessionID == "null" || !sessionID) {
         document.getElementById("fullLoginContainer").style.display = "block";
     }
 }
