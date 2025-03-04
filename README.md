@@ -49,7 +49,7 @@ python main.py
 3. Login with your CWL and Password (only works with UBC wifi)
 4. Upload a .csv file containing at least a "Email" column then click "submit"
     - A template .csv file can be found [here](https://github.com/UBC-LFS/lfs-mass-mailer-flask/blob/main/static/template.csv)
-    - The first 10 rows will be displayed
+    - The first 5 rows will be displayed
 5. Scroll down and begin writing your email
     - You can insert variables into your email from your spreadsheet by surrounding it %, capitalizing it, and replacing spaces with underlines
 6. Preview your email by clicking on the preview button
