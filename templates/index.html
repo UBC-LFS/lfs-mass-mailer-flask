@@ -38,11 +38,12 @@
                     </form>
                 </div>
 
+
                 <div class="writeEmailSection" id="writeEmailSection" style="display: none;">
                 <!-- <div class="writeEmailSection" id="writeEmailSection"> -->
-
+                    <hr>
                     <div class="fileSummaryContainer">
-                        <div class="fileSummaryTextContainer">
+                         <div class="fileSummaryTextContainer">
                             <p class="summaryTitle">Summary of Uploaded File</p>
                             <p>Total rows: <span id="fileRows"></span></p>
                             <p>Headers: <span id="fileHeaders"></span></p>
@@ -55,10 +56,12 @@
                         </table>
                     </div>
 
+                    <hr>
+
                     <div class="writeEmailContainer">
                         <h2>Write Your Email</h2>
                         <p>Please use the following Header Replacements. Those variables will be replaced by actual values while sending an Email.<br/>Header Replacements:</p>
-                        <ul id="variablesList"></ul>
+                        <ul id="variablesList" class="variablesList"></ul>
                         <input id="subjectForm" class="subjectForm" placeholder="Subject" onchange="createEmailPreview()">
                         <!-- Rich text editor -->
                         <div id="richTextEditor"></div>
