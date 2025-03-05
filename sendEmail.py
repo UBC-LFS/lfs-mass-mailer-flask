@@ -1,5 +1,6 @@
 from smtplib import SMTP
 import email.message
+from email.header import Header
 
 import os
 from dotenv import load_dotenv
@@ -31,7 +32,7 @@ def sendEmails(recipients, subject, draftMessage, variables):
         for i in range(len(recipients)):
             try:
                 msg = email.message.Message()
-                msg.add_header('Content-Type','text/html')
+                msg.add_header('Content-Type','text/html; charset="utf-8"')
 
                 if (TRANSPORTER_OPTIONS == "smtp"):
                     msg['From'] = USER 
@@ -55,7 +56,7 @@ def sendEmails(recipients, subject, draftMessage, variables):
                     modifiedSubject = modifiedSubject.replace(insertedVar, recipients[i][var])
                     modifiedDraftMessage = modifiedDraftMessage.replace(insertedVar, recipients[i][var])
 
-                msg['Subject'] = modifiedSubject
+                msg['Subject'] = Header(modifiedSubject, 'utf-8')
                 message = f"""\
                     <html>
                     <head></head>
@@ -64,7 +65,7 @@ def sendEmails(recipients, subject, draftMessage, variables):
                     </body>
                     </html>
                 """
-                msg.set_payload(message)
+                msg.set_payload(message.encode("utf-8"), charset="utf-8")
                 msg['To'] = recipients[i]["Email"] 
                 emailService.sendmail(msg['From'], msg['to'], msg.as_string())
                 receivers.append(recipients[i])
