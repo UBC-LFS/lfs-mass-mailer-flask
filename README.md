@@ -39,6 +39,9 @@ ACCOUNT_PASS=
 ALIAS_EMAIL=
 # "smtp" (default) OR "smtpRelay"
 TRANSPORTER_OPTIONS=
+
+# absolute path for log exports
+LOG_EXPORT_PATH=
 ```
 ### Running the website 
 1. Run `main.py`
