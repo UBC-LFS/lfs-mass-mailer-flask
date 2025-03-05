@@ -18,7 +18,7 @@ function logout() {
 function checkSessionID() {
     let cookie = decodeURIComponent(document.cookie);
     let ca = cookie.split(';');
-    let sessionID = null;
+    sessionID = null;
     for (let i = 0; i < ca.length; i++) {
         let c = ca[i].trim();
         if (c.indexOf("sessionID=") == 0) {
