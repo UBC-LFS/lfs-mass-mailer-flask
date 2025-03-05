@@ -24,15 +24,46 @@ function buildTable(data) {
     let validEmails = 0;
     let invalidEmails = 0;
 
+    let max_rows = 5;
+
     for (const column of data["columns"]) {
         // Table
         const columnTh = document.createElement("th")
         columnTh.innerHTML = column
         columns.appendChild(columnTh)
         // Variables list
-        const columnLi = document.createElement("li")
-        columnLi.innerHTML = `%${column.replace(' ', '_').toUpperCase()}%`
-        variablesList.appendChild(columnLi)
+        
+        const columnLi = document.createElement("li");
+
+        // Create a "Copy" button
+        const copyButton = document.createElement("button");
+        copyButton.textContent = "Copy";
+
+        // Create a span for the text
+        const textSpan = document.createElement("span");
+        textSpan.textContent = `%${column.replace(' ', '_').toUpperCase()}%`;
+        textSpan.style.marginLeft = "10px"; // Add spacing between text and button
+        
+        // Copy functionality
+        copyButton.addEventListener("click", function () {
+            navigator.clipboard.writeText(textSpan.textContent).then(() => {
+                console.log("Copied: " + textSpan.textContent);
+                copyButton.textContent = "Copied!";
+                setTimeout(() => {
+                    copyButton.textContent = "Copy";
+                }, 500); // Reset after 1.5 seconds
+            }).catch(err => {
+                console.error("Failed to copy text: ", err);
+            });
+        });
+        
+
+        // Append both elements to the list item
+        columnLi.appendChild(copyButton);
+        columnLi.appendChild(textSpan);
+
+        // Append the list item to the parent list
+        variablesList.appendChild(columnLi);
         varList.push(column)
     }
     const contactTable = document.getElementById("contactTable");
@@ -53,13 +84,13 @@ function buildTable(data) {
             }
         }
         rows += 1;
-        if (rows <= 10) {
+        if (rows <= max_rows) {
             contactTable.appendChild(row);
         }
     }
 
-    if (rows > 10) {
-        document.getElementById("rowsDisplayed").innerHTML = 10;
+    if (rows > max_rows) {
+        document.getElementById("rowsDisplayed").innerHTML = max_rows;
     }
     else {
         document.getElementById("rowsDisplayed").innerHTML = rows;
