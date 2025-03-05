@@ -48,6 +48,10 @@ function buildTable(data) {
         copyButton.addEventListener("click", function () {
             navigator.clipboard.writeText(textSpan.textContent).then(() => {
                 console.log("Copied: " + textSpan.textContent);
+                copyButton.textContent = "Copied!";
+                setTimeout(() => {
+                    copyButton.textContent = "Copy";
+                }, 500); // Reset after 1.5 seconds
             }).catch(err => {
                 console.error("Failed to copy text: ", err);
             });

@@ -43,17 +43,20 @@
                 <!-- <div class="writeEmailSection" id="writeEmailSection"> -->
                     <hr>
                     <div class="fileSummaryContainer">
-                         <div class="fileSummaryTextContainer">
+                        <div class="fileSummaryTextContainer">
                             <p class="summaryTitle">Summary of Uploaded File</p>
                             <p>Total rows: <span id="fileRows"></span></p>
                             <p>Headers: <span id="fileHeaders"></span></p>
                             <p>Valid emails: <span id="fileValidEmails"></span></p>
                             <p>Invalid emails: <span id="fileInvalidEmails"></span></p>
                         </div>
-                        <table class="contactTable" id="contactTable">
-                            <p class="rowsDisplayedText">Rows <span id="rowsDisplayed">0</span> out of <span id="totalRows">0</span> displayed...</p>
-                            <tr id="columns"></tr>
-                        </table>
+                        <div class = "contactTableContainer">
+                            <table class="contactTable" id="contactTable">
+                                <p class="rowsDisplayedText">Rows <span id="rowsDisplayed">0</span> out of <span id="totalRows">0</span> displayed...</p>
+                                <tr id="columns"></tr>
+                            </table>
+                        </div>
+                        
                     </div>
 
                     <hr>
@@ -66,8 +69,6 @@
                         <!-- Rich text editor -->
                         <div id="richTextEditor"></div>
                         <!-- Rich text editor ^^^ -->
-
-                        <p>Note: Uploaded images may not display properly on some web browsers!</p>
                         <button class="sendEmailButton" onclick="previewEmail(true)">Preview email</button>
                         <button class="sendEmailButton" id="sendEmailsBTN" onclick="sendEmails()">Send emails</button>
                     </div>
