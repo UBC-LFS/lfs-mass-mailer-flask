@@ -70,6 +70,12 @@ def write_log(user, subject, message, receivers, failedReceivers):
         if sender_address is None or sender_address == "":
             sender_address = os.getenv("ACCOUNT_USER_RELAY")
 
+        # if type is null, set to empty string
+        user = user or ""
+        sender_address = sender_address or ""
+        subject = subject or ""
+        message = message or ""
+
         message_parsed = message.replace('<p>', '').replace('</p>','').replace('<br>', '\n')
 
         f.write('Date (YYYY/MM/DD): ' + date_str + '\n')
@@ -83,10 +89,10 @@ def write_log(user, subject, message, receivers, failedReceivers):
 
         f.write('Receivers:\n')
         for receiver in receivers:
-            f.write(str(receiver) + '\n')
+            f.write(str(receiver or "") + '\n')
         f.write('\nFailed Receivers:\n')
         for failedReceiver in failedReceivers:
-            f.write(str(failedReceiver) + '\n')
+            f.write(str(failedReceiver or "") + '\n')
         f.close()
         print("log written succesfully")
         return "log written successfully"
