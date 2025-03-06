@@ -16,6 +16,17 @@ function getVarList() {
 
 function buildTable(data) {
     // document.getElementById("uploadFileSection").style.display = "none";
+
+    // clear existing items first
+
+    varList = []
+
+    document.getElementById("columns").innerHTML=""
+    document.getElementById("variablesList").innerHTML=""
+    document.getElementById("fileHeaders").innerHTML=""
+    // TODO: figure out here exactly how to clera table on resubmit
+    //document.getElementById("contactTable").innerHTML=""
+
     document.getElementById("writeEmailSection").style.display = "block";
     const columns = document.getElementById("columns");
     const variablesList = document.getElementById("variablesList")
