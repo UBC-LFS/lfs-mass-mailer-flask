@@ -146,17 +146,24 @@ def login():
 def getEmailContent():
     jsdata = request.form
     formattedData = jsdata.to_dict(flat=False)
+    import pprint
+    pprint.pprint(formattedData)
     # Render loading screen in HTML
     subject = formattedData["subject"][0]
+    if "cc[]" in formattedData.keys():
+        cc = formattedData["cc[]"]
+    else:
+        cc = []
     message = formattedData["HTMLemailContent"][0]
     variables = formattedData["varList[]"]
     sessionID = formattedData["sessionID"][0]
-    
+
+    #return
     user = load_user(sessionID)
     if (user):
         print("Valid user!")
         recipients = sendEmail.buildReceiversData(formattedData, variables)
-        receivers, failedReceivers = sendEmail.sendEmails(recipients, subject, message, variables)
+        receivers, failedReceivers = sendEmail.sendEmails(recipients, subject, cc, message, variables)
         # Finish sending emails, render results in HTML
         write_log(user, subject, message, receivers, failedReceivers)
         return jsonify(success=1, output={"receivers":receivers,"failedReceivers":failedReceivers}, error=None)

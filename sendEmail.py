@@ -16,9 +16,9 @@ TRANSPORTER_OPTIONS = os.getenv("TRANSPORTER_OPTIONS")
 def buildReceiversData(data, variables):
     recipients = []
     # Data is sent by ajax in a weird format
-    # len(data) - 3 (removes the subject, email content, and sessionID from the data count)
+    # len(data) - 4 (removes the subject, cc list, email content, and sessionID from the data count)
     # divide by # of variables
-    numOfRecipients = int((len(data) - 3)/len(variables))
+    numOfRecipients = int((len(data) - 4)/len(variables))
     for i in range(numOfRecipients):
         recipient = {}
         for var in variables:
@@ -26,7 +26,7 @@ def buildReceiversData(data, variables):
         recipients.append(recipient)
     return recipients
 
-def sendEmails(recipients, subject, draftMessage, variables):
+def sendEmails(recipients, subject, cc, draftMessage, variables):
     receivers = []
     try:
         for i in range(len(recipients)):
@@ -66,8 +66,13 @@ def sendEmails(recipients, subject, draftMessage, variables):
                     </html>
                 """
                 msg.set_payload(message.encode("utf-8"), charset="utf-8")
-                msg['To'] = recipients[i]["Email"] 
-                emailService.sendmail(msg['From'], msg['to'], msg.as_string())
+                msg['To'] = recipients[i]["Email"]
+                recipients_list = [msg['To']]
+                if cc:
+                    msg['Cc'] = ", ".join(cc)
+                    for contact in cc:
+                        recipients_list.append(contact)
+                emailService.sendmail(msg['From'], recipients_list, msg.as_string())
                 receivers.append(recipients[i])
                 emailService.quit()
             # If it fails to send an email
