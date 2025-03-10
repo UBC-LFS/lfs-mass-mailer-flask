@@ -51,9 +51,12 @@
                             <p>Invalid emails: <span id="fileInvalidEmails"></span></p>
                         </div>
                         <div class = "contactTableContainer">
+                            <p class="rowsDisplayedText">Rows <span id="rowsDisplayed">0</span> out of <span id="totalRows">0</span> displayed...</p>
                             <table class="contactTable" id="contactTable">
-                                <p class="rowsDisplayedText">Rows <span id="rowsDisplayed">0</span> out of <span id="totalRows">0</span> displayed...</p>
-                                <tr id="columns"></tr>
+                                <thead class="contactTableHead" id="contactTableHead">
+                                    <tr id="columns"></tr>
+                                </thead>
+                                <tbody id="contactTableBody"></tbody>
                             </table>
                         </div>
                         

@@ -48,11 +48,7 @@ body {
   float: right;
 }
 
-tr:nth-child(1) {
-  background: #002145;
-  color: white;
-}
-tr:nth-child(1) {
+.contactTableHead tr:nth-child(1) {
   background: #002145 !important;
   color: white;
 }
