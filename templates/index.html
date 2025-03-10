@@ -68,8 +68,12 @@
                         <h2>Write Your Email</h2>
                         <p>Please use the following Header Replacements. Those variables will be replaced by actual values while sending an Email.<br/>Header Replacements:</p>
                         <ul id="variablesList" class = "variablesList"></ul>
+
+                        <hr>
+
                         <div class = "inputContainer">
                             <input id="subjectForm" class="subjectForm" placeholder="Subject" onchange="createEmailPreview()">
+                            <input id="ccForm" class="ccForm" placeholder="CC (optional, separate with commas)" onchange="createEmailPreview()">
                             <textarea id="messageForm" class="messageForm" placeholder="Message" onchange="createEmailPreview()"></textarea>
                         </div>
 
@@ -85,6 +89,9 @@
                         <div class="emailPreview">
                             <div class="previewSubject">
                                 <p><b>Subject: </b><span id="subjectPreview"></span></p>
+                            </div>
+                            <div class="previewCC">
+                                <p><b>CC: </b><span id="ccPreview"></span></p>
                             </div>
                             <div class="previewMessage">
                                 <span id="messagePreview" style="white-space: pre;">  
@@ -159,6 +166,7 @@
     function createEmailPreview() {
         console.log("createEmailPreview called")
         const subject = document.getElementById("subjectForm").value;
+        const cc = document.getElementById("ccForm").value;
         const message = document.getElementById("messageForm").value;
 
         // Insert preview variables
@@ -176,6 +184,7 @@
 
         document.getElementById("subjectPreview").innerHTML = modifiedSubject;
         document.getElementById("messagePreview").innerHTML = modifiedMessage;
+        document.getElementById("ccPreview").innerHTML = cc;
     }
 
     // Create email preview on load

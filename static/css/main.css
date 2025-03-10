@@ -86,6 +86,16 @@ tr:hover {
   width: 300px;
 }
 
+.ccForm {
+  outline: none;
+  border: none;
+  font-size: 1.1em;
+  margin: 5px 0px;
+  border-bottom: rgb(57, 57, 57) solid;
+  border-width: 2px;
+  width: 300px;
+}
+
 .messageForm {
   outline: none;
   font-size: 1.2em;
@@ -148,6 +158,13 @@ tr:hover {
 .previewSubject {
   padding: 10px;
   border: solid 1px #ebedf2;
+  overflow-x: auto;
+}
+
+.previewCC {
+  padding: 10px;
+  border: solid 1px #ebedf2;
+  overflow-x: auto;
 }
 
 .previewMessage {
@@ -155,6 +172,7 @@ tr:hover {
   padding: 10px;
   border: solid 1px #ebedf2;
   overflow-y: auto;
+  overflow-x: auto;
 }
 
 .sendEmailButton {
