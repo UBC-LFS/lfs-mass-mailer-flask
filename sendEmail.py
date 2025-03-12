@@ -67,6 +67,7 @@ def sendEmails(recipients, subject, cc, draftMessage, variables):
                     )
 
                 modifiedCC = modifiedCC.replace(" ", "")
+                modifiedCC = modifiedCC.replace("|", ",")
                 ccList = modifiedCC.split(",")
 
                 msg["Subject"] = Header(modifiedSubject, "utf-8")

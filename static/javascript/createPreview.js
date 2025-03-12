@@ -38,7 +38,7 @@ function buildResults(receivers, failedReceivers) {
         const row = document.createElement("tr");
         for (const column of varList) {
             const rowItem = document.createElement("td")
-            rowItem.innerHTML = receiver[column]
+            rowItem.innerHTML = receiver[column].replaceAll("|", ", ");
             row.appendChild(rowItem)
         }
         failedResults.appendChild(row)
@@ -48,7 +48,7 @@ function buildResults(receivers, failedReceivers) {
         const row = document.createElement("tr");
         for (const column of varList) {
             const rowItem = document.createElement("td")
-            rowItem.innerHTML = receiver[column]
+            rowItem.innerHTML = receiver[column].replaceAll("|", ", ");
             row.appendChild(rowItem)
         }
         successfulResults.appendChild(row)

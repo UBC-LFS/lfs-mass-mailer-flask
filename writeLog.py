@@ -42,7 +42,7 @@ def write_log(user, subject, cc, message, receivers, failedReceivers):
 
         f.write("Receivers:\n")
         for receiver in receivers:
-            f.write(str(receiver) + "\n")
+            f.write(str(receiver).replace("|", ", ") + "\n")
         f.write("\nFailed Receivers:\n")
         for failedReceiver in failedReceivers:
             f.write(str(failedReceiver) + "\n")

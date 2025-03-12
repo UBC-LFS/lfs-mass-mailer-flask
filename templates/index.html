@@ -182,6 +182,8 @@
             modifiedMessage = modifiedMessage.replaceAll(insertedVar, previewRecipient[variable])
         }
 
+        modifiedCC = modifiedCC.replaceAll("|", ", ")
+
         document.getElementById("subjectPreview").innerHTML = modifiedSubject;
         document.getElementById("messagePreview").innerHTML = modifiedMessage;
         document.getElementById("ccPreview").innerHTML = modifiedCC;
@@ -225,6 +227,8 @@
 
         // remove whitespace
         ccString_replaced = ccString_replaced.replace(/\s+/g, '');
+
+        ccString_replaced = ccString_replaced.replaceAll("|", ",")
 
         var ccList_replaced = ccString_replaced.split(",");
 
