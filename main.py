@@ -108,10 +108,7 @@ def getEmailContent():
     pprint.pprint(formattedData)
     # Render loading screen in HTML
     subject = formattedData["subject"][0]
-    if "cc[]" in formattedData.keys():
-        cc = formattedData["cc[]"]
-    else:
-        cc = []
+    cc = formattedData["cc"][0]
     message = formattedData["HTMLemailContent"][0]
     variables = formattedData["varList[]"]
     sessionID = formattedData["sessionID"][0]

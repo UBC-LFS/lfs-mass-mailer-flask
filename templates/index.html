@@ -169,6 +169,7 @@
 
         // Insert preview variables
         var modifiedSubject = subject
+        var modifiedCC = cc
         var modifiedMessage = message
         console.log(message)
         const previewRecipient = getPreviewData()
@@ -177,12 +178,13 @@
             const insertedVar = `%${variable.replace(' ', '_').toUpperCase()}%`
             console.log(insertedVar)
             modifiedSubject = modifiedSubject.replaceAll(insertedVar, previewRecipient[variable])
+            modifiedCC = modifiedCC.replaceAll(insertedVar, previewRecipient[variable])
             modifiedMessage = modifiedMessage.replaceAll(insertedVar, previewRecipient[variable])
         }
 
         document.getElementById("subjectPreview").innerHTML = modifiedSubject;
         document.getElementById("messagePreview").innerHTML = modifiedMessage;
-        document.getElementById("ccPreview").innerHTML = cc;
+        document.getElementById("ccPreview").innerHTML = modifiedCC;
     }
 
     // Create email preview on load
@@ -205,27 +207,39 @@
     }
 
     function processCC(ccString) {
-        // tries to create array of emails to CC to
-        // trim whitespace, split by commas, check if emails are valid
+        // checks if ccString is a valid string of emails
         // on fail, return empty
 
+        if (!ccString) {
+            return " "
+        }
+
+        var ccString_replaced = ccString
+
+        const previewRecipient = getPreviewData()
+        for (const variable of getVarList()) {
+            // If user adds a variable into their subject or message, replace it with the actual value
+            const insertedVar = `%${variable.replace(' ', '_').toUpperCase()}%`
+            ccString_replaced = ccString_replaced.replaceAll(insertedVar, previewRecipient[variable])
+        }
+
         // remove whitespace
-        ccString = ccString.replace(/\s+/g, '');
+        ccString_replaced = ccString_replaced.replace(/\s+/g, '');
 
-        var ccList = ccString.split(",");
+        var ccList_replaced = ccString_replaced.split(",");
 
-        if (ccList.length > 0 && ccList[ccList.length - 1] === "") {
-            ccList.pop();
+        if (ccList_replaced.length > 0 && ccList_replaced[ccList_replaced.length - 1] === "") {
+            ccList_replaced.pop();
         }
 
         const emailRegex = /^[^@]+@[^@]+\.[a-zA-Z]{2,6}(\.[a-zA-Z]{2,6})?$/;
 
-        if (ccList.some(email => !emailRegex.test(email))) {
+        if (ccList_replaced.some(email => !emailRegex.test(email))) {
             console.log("Regex failed");
             return false;
         }
 
-        return ccList;
+        return ccString;
     }
 
     function sendEmails() {
@@ -237,9 +251,10 @@
 
             // check cc, parse if successful
             cc = processCC(document.getElementById("ccForm").value)
+            console.log(cc)
             if(!cc) {
                 document.getElementById("fullLoadingContainer").style.display = "none";
-                alert("Error: Make sure CC field is separated with commas.")
+                alert("Error: Make sure CC field is made up of valid emails separated with commas.")
                 document.getElementById("sendEmailsBTN").disabled = false;
                 return;
             }

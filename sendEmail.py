@@ -13,12 +13,13 @@ PASSWORD = os.getenv("ACCOUNT_PASS")
 ALIAS_EMAIL = os.getenv("ALIAS_EMAIL")
 TRANSPORTER_OPTIONS = os.getenv("TRANSPORTER_OPTIONS")
 
+
 def buildReceiversData(data, variables):
     recipients = []
     # Data is sent by ajax in a weird format
     # len(data) - 4 (removes the subject, cc list, email content, and sessionID from the data count)
     # divide by # of variables
-    numOfRecipients = int((len(data) - 4)/len(variables))
+    numOfRecipients = int((len(data) - 4) / len(variables))
     for i in range(numOfRecipients):
         recipient = {}
         for var in variables:
@@ -26,37 +27,49 @@ def buildReceiversData(data, variables):
         recipients.append(recipient)
     return recipients
 
+
 def sendEmails(recipients, subject, cc, draftMessage, variables):
     receivers = []
     try:
         for i in range(len(recipients)):
             try:
                 msg = email.message.Message()
-                msg.add_header('Content-Type','text/html; charset="utf-8"')
+                msg.add_header("Content-Type", 'text/html; charset="utf-8"')
 
-                if (TRANSPORTER_OPTIONS == "smtp"):
-                    msg['From'] = USER 
+                if TRANSPORTER_OPTIONS == "smtp":
+                    msg["From"] = USER
                     PORT = 587
                     emailService = SMTP(host=HOST, port=PORT)
                     emailService.ehlo()
                     emailService.starttls()
-                    emailService.login(user=USER, password=PASSWORD, initial_response_ok=True)
-                
+                    emailService.login(
+                        user=USER, password=PASSWORD, initial_response_ok=True
+                    )
+
                 # smtpRelay (default)
                 else:
-                    msg['From'] = f"{USER} <{ALIAS_EMAIL}>" 
+                    msg["From"] = f"{USER} <{ALIAS_EMAIL}>"
                     PORT = 25
                     emailService = SMTP(host=HOST, port=PORT)
-                    
+
                 modifiedSubject = subject
+                modifiedCC = cc
                 modifiedDraftMessage = draftMessage
                 # If user adds a variable into their subject or message, replace it with the actual value
                 for var in variables:
                     insertedVar = f"%{var.replace(' ', '_').upper()}%"
-                    modifiedSubject = modifiedSubject.replace(insertedVar, recipients[i][var])
-                    modifiedDraftMessage = modifiedDraftMessage.replace(insertedVar, recipients[i][var])
+                    modifiedSubject = modifiedSubject.replace(
+                        insertedVar, recipients[i][var]
+                    )
+                    modifiedCC = modifiedCC.replace(insertedVar, recipients[i][var])
+                    modifiedDraftMessage = modifiedDraftMessage.replace(
+                        insertedVar, recipients[i][var]
+                    )
 
-                msg['Subject'] = Header(modifiedSubject, 'utf-8')
+                modifiedCC = modifiedCC.replace(" ", "")
+                ccList = modifiedCC.split(",")
+
+                msg["Subject"] = Header(modifiedSubject, "utf-8")
                 message = f"""\
                     <html>
                     <head></head>
@@ -66,13 +79,13 @@ def sendEmails(recipients, subject, cc, draftMessage, variables):
                     </html>
                 """
                 msg.set_payload(message.encode("utf-8"), charset="utf-8")
-                msg['To'] = recipients[i]["Email"]
-                recipients_list = [msg['To']]
-                if cc:
-                    msg['Cc'] = ", ".join(cc)
-                    for contact in cc:
+                msg["To"] = recipients[i]["Email"]
+                recipients_list = [msg["To"]]
+                if ccList:
+                    msg["Cc"] = ", ".join(ccList)
+                    for contact in ccList:
                         recipients_list.append(contact)
-                emailService.sendmail(msg['From'], recipients_list, msg.as_string())
+                emailService.sendmail(msg["From"], recipients_list, msg.as_string())
                 receivers.append(recipients[i])
                 emailService.quit()
             # If it fails to send an email
@@ -82,8 +95,12 @@ def sendEmails(recipients, subject, cc, draftMessage, variables):
                 print(recipients[i])
 
     except Exception as e:
-       print("\nError:\n" + str(e) + "\n")
+        print("\nError:\n" + str(e) + "\n")
     print("Successfully sent emails")
 
-    failedReceivers = [failedReceiver for failedReceiver in recipients if failedReceiver not in receivers]
-    return receivers, failedReceivers 
+    failedReceivers = [
+        failedReceiver
+        for failedReceiver in recipients
+        if failedReceiver not in receivers
+    ]
+    return receivers, failedReceivers

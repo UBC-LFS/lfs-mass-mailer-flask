@@ -6,7 +6,6 @@ log_export_path = log_export_path.replace("\\", "/")
 
 
 def write_log(user, subject, cc, message, receivers, failedReceivers):
-    # TODO - add CCs to log
     time_file_str = time.strftime("%Y-%m-%d_%H-%M-%S")
 
     if not os.path.isdir(log_export_path):
@@ -24,8 +23,6 @@ def write_log(user, subject, cc, message, receivers, failedReceivers):
         sender_address = os.getenv("ACCOUNT_USER")
         if sender_address is None or sender_address == "":
             sender_address = os.getenv("ACCOUNT_USER_RELAY")
-
-        cc = ", ".join(cc)
 
         message_parsed = (
             message.replace("<p>", "").replace("</p>", "").replace("<br>", "\n")
