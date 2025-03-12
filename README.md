@@ -55,6 +55,8 @@ python main.py
     - The first 5 rows will be displayed
 5. Scroll down and begin writing your email
     - You can insert variables into your email from your spreadsheet by surrounding it %, capitalizing it, and replacing spaces with underlines
+    - You may add optionally enter in email addresses into the CC field. If you do so, separate the email addresses with commas.
+        - The CC field also accepts variable inserts. If you plan to have a variable that contains multiple emails in it (for example, a CC field in the csv file that specifies 3 email addresses to CC), use the "|" symbol inside the csv file to separate them.
 6. Preview your email by clicking on the preview button
     - If you inserted variables, their values will be the values in the first row
 7. Send your email(s)
@@ -69,6 +71,8 @@ python main.py
     - logs out user
 - sendEmail.py
     - code for sending out emails and formatting recipients data
+- writeLog.py
+    - code for logging emails in pre-specified path
 - templates
     - index.html
         - Contains HTML code for the website elements
