@@ -2,6 +2,8 @@ from smtplib import SMTP
 import email.message
 from email.header import Header
 
+from flask import render_template_string
+
 import os
 from dotenv import load_dotenv
 
@@ -57,14 +59,25 @@ def sendEmails(recipients, subject, cc, draftMessage, variables):
                 modifiedDraftMessage = draftMessage
                 # If user adds a variable into their subject or message, replace it with the actual value
                 for var in variables:
-                    insertedVar = f"%{var.replace(' ', '_').upper()}%"
+                    insertedVar = f"{var.replace(' ', '_').upper()}"
                     modifiedSubject = modifiedSubject.replace(
                         insertedVar, recipients[i][var]
                     )
                     modifiedCC = modifiedCC.replace(insertedVar, recipients[i][var])
-                    modifiedDraftMessage = modifiedDraftMessage.replace(
-                        insertedVar, recipients[i][var]
+                    # modifiedDraftMessage = modifiedDraftMessage.replace(
+                    #     insertedVar, recipients[i][var]
+                    # )
+
+                # use jinja formatting
+                variables_formatted = {}
+                for var in variables:
+                    variables_formatted[f"{var.replace(' ', '_').upper()}"] = (
+                        recipients[i][var]
                     )
+
+                modifiedDraftMessage = render_template_string(
+                    modifiedDraftMessage, **variables_formatted
+                )
 
                 modifiedCC = modifiedCC.replace(" ", "")
                 modifiedCC = modifiedCC.replace("|", ",")

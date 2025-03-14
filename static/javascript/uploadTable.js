@@ -51,7 +51,7 @@ function buildTable(data) {
 
         // Create a span for the text
         const textSpan = document.createElement("span");
-        textSpan.textContent = `%${column.replace(' ', '_').toUpperCase()}%`;
+        textSpan.textContent = `${column.replace(' ', '_').toUpperCase()}`;
         textSpan.style.marginLeft = "10px"; // Add spacing between text and button
         
         // Copy functionality

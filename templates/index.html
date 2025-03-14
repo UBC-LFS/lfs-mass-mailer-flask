@@ -175,7 +175,7 @@
         const previewRecipient = getPreviewData()
         for (const variable of getVarList()) {
             // If user adds a variable into their subject or message, replace it with the actual value
-            const insertedVar = `%${variable.replace(' ', '_').toUpperCase()}%`
+            const insertedVar = `${variable.replace(' ', '_').toUpperCase()}`
             console.log(insertedVar)
             modifiedSubject = modifiedSubject.replaceAll(insertedVar, previewRecipient[variable])
             modifiedCC = modifiedCC.replaceAll(insertedVar, previewRecipient[variable])
@@ -221,7 +221,7 @@
         const previewRecipient = getPreviewData()
         for (const variable of getVarList()) {
             // If user adds a variable into their subject or message, replace it with the actual value
-            const insertedVar = `%${variable.replace(' ', '_').toUpperCase()}%`
+            const insertedVar = `${variable.replace(' ', '_').toUpperCase()}`
             ccString_replaced = ccString_replaced.replaceAll(insertedVar, previewRecipient[variable])
         }
 
@@ -266,7 +266,7 @@
             emailContent = {
                 subject:document.getElementById("subjectForm").value,
                 cc: cc,
-                HTMLemailContent: "<p>" + document.getElementById("messageForm").value.replace(/\n/g, '<br>') + "</p>", // Replaces new lines with <br> tags
+                HTMLemailContent: "<div>" + document.getElementById("messageForm").value + "</div>", // Replaces new lines with <br> tags
                 receivers: getCSVData(),
                 varList: getVarList(),
                 sessionID: getSessionID()
